@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
+import {WebView} from 'react-native-webview';
 import api from '../../services/api';
 
 import {
@@ -51,6 +52,18 @@ export default class User extends Component {
     });
   }
 
+  handleWebview = () => {
+    console.log('click');
+    return (
+      <WebView
+        style={{flex: 1}}
+        source={{
+          html: 'https://github.com/react-native-community/react-native-maps',
+        }}
+      />
+    );
+  };
+
   render() {
     const {navigation} = this.props;
     const {stars, loading} = this.state;
@@ -68,14 +81,14 @@ export default class User extends Component {
           <ActivityIndicator
             size="large"
             color="#F36B7F"
-            style={{paddingTop: 20}}
+            style={{paddingVertical: 20}}
           />
         ) : (
           <Stars
             data={stars}
             keyExtractor={star => String(star.id)}
             renderItem={({item}) => (
-              <Starred>
+              <Starred onPress={() => this.handleWebview()}>
                 <OwnerAvatar source={{uri: item.owner.avatar_url}} />
                 <Info>
                   <Title>{item.name}</Title>
